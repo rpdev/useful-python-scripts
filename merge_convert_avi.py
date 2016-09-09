@@ -9,7 +9,7 @@ from time import strftime
 
 
 def main(folder, output_folder, convert):
-    def __execute_cmd__(cmd):
+    def _execute_cmd(cmd):
         p = Popen(shlex.split(cmd))
         if p.wait() != 0:
             print('Error when executing ' + cmd, file=stderr)
@@ -25,13 +25,13 @@ def main(folder, output_folder, convert):
 
     filename = 'video-%s' % strftime('%Y-%m-%d_%H%M')
     cmd = 'avimerge -o video-%s.avi -i \"%s\"' % (os.path.join(output_folder, filename), ', '.join(avi_files))
-    if __execute_cmd__(cmd):
+    if not _execute_cmd(cmd):
         return 1
 
     if convert:
-        if __execute_cmd__('ffmpeg -i {0}.avi {0}.mkv'.format(os.path.join(output_folder, filename))):
+        if not _execute_cmd('ffmpeg -i {0}.avi {0}.mkv'.format(os.path.join(output_folder, filename))):
             return 1
-        if __execute_cmd__('touch -r {0}.avi {0}.mkv'.format(filename)):
+        if not _execute_cmd('touch -r {0}.avi {0}.mkv'.format(filename)):
             return 1
 
 
