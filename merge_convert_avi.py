@@ -25,13 +25,13 @@ def main(folder, output_folder, convert):
 
     filename = 'video-%s' % strftime('%Y-%m-%d_%H%M')
     cmd = 'avimerge -o video-%s.avi -i \"%s\"' % (os.path.join(output_folder, filename), ', '.join(avi_files))
-    if __execute_cmd__(cmd):
+    if not __execute_cmd__(cmd):
         return 1
 
     if convert:
-        if __execute_cmd__('ffmpeg -i {0}.avi {0}.mkv'.format(os.path.join(output_folder, filename))):
+        if not __execute_cmd__('ffmpeg -i {0}.avi {0}.mkv'.format(os.path.join(output_folder, filename))):
             return 1
-        if __execute_cmd__('touch -r {0}.avi {0}.mkv'.format(filename)):
+        if not __execute_cmd__('touch -r {0}.avi {0}.mkv'.format(filename)):
             return 1
 
 
