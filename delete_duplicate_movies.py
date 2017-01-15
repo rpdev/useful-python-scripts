@@ -14,7 +14,7 @@ def main(folder, file_types = ['.avi', '.mkv', '.mp4']):
                 if k not in videos:
                     videos[k] = []
                 videos[k] += [os.path.join(root, f)]
-                
+
     for k, v in videos.items():
         if len(v) > 1:
             print(k, v)
