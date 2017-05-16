@@ -17,7 +17,19 @@ def main(folder, file_types = ['.avi', '.mkv', '.mp4']):
 
     for k, v in videos.items():
         if len(v) > 1:
-            print(k, v)
+            delete_files = _get_delete_files(v)
+            keep_file = set(v).difference(set(delete_files))
+            print("Delete    %s" % ', '.join(delete_files))
+            print("Keep file %s" % ', '.join(keep_file))
+            delete = input("Delete %s (y/N) " % ', '.join(delete_files)).lower() == 'y'
+            if delete:
+                for delete_file in delete_files:
+                    os.remove(delete_file)
+            print()
+
+
+def _get_delete_files(files, spare='.mkv'):
+    return [f for f in files if not f.lower().endswith(spare)]
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detects duplicated movie files')
