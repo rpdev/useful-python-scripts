@@ -8,9 +8,8 @@ def main(source, target):
     i = 0
     for root, _, files in os.walk(source):
         for f in files:
-            if f.lower().endswith('.gif'):
-                ff = os.path.join(root, f)
-                os.symlink(ff, os.path.join(target, new_name(f, target)))
+            ff = os.path.join(root, f)
+            os.symlink(ff, os.path.join(target, new_name(f, target)))
 
 def new_name(filename, target):
     num = 1
