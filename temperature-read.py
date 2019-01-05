@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """
 Simple script for fetching information from a DS18B20 Temperature Sensor, verifying if the data is correct by CRC
-and store the temperature if it's valid. The storage is done to a supplied csv file.
+and store the temperature if it's valid. The storage is done to a supplied csv file. The values stored in the csv file
+is date, temperature and temperature error range.
 """
 import csv
 import locale
@@ -24,18 +25,31 @@ def read():
         return None
 
 
-def store(csv_filename, temp: float):
+def store(csv_filename, temp: float, error: float):
     locale.setlocale(locale.LC_ALL, '')
     iso = datetime.now(timezone.utc).astimezone().strftime('%Y-%m-%dT%H:%M:%S,%f%z')
     with open(csv_filename, 'a', newline='') as csv_file:
         writer = csv.writer(csv_file)
-        writer.writerow([iso, '{0:n}'.format(temp)])
+        writer.writerow([iso, '{0:n}'.format(temp), '±{0:n}'.format(error)])
+
+
+def get_temp_error(temp):
+    # https://datasheets.maximintegrated.com/en/ds/DS18B20.pdf
+    if -10 < temp < 85:
+        return 0.5
+    elif -30 < temp < 100:
+        return 1.0
+    elif -55 < temp < 125:
+        return 2.0
+    else:
+        return float('NaN')
 
 
 def main(csv_file):
     temp = read()
     if temp:
-        store(csv_file, temp / 1000)
+        temperature = temp / 1000
+        store(csv_file, temperature, get_temp_error(temperature))
 
 
 if __name__ == '__main__':
