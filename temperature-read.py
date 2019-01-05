@@ -4,6 +4,7 @@ Simple script for fetching information from a DS18B20 Temperature Sensor, verify
 and store the temperature if it's valid. The storage is done to a supplied csv file.
 """
 import csv
+import locale
 import os
 import sys
 from datetime import datetime, timezone
@@ -24,10 +25,11 @@ def read():
 
 
 def store(csv_filename, temp: float):
-    rfc3339 = datetime.now(timezone.utc).astimezone().isoformat()
-    with open(csv_filename, 'a', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow([rfc3339, temp])
+    locale.setlocale(locale.LC_ALL, '')
+    iso = datetime.now(timezone.utc).astimezone().strftime('%Y-%m-%dT%H:%M:%S,%f%z')
+    with open(csv_filename, 'a', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow([iso, '{0:n}'.format(temp)])
 
 
 def main(csv_file):
