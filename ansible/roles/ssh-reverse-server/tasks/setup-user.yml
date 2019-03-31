@@ -1,0 +1,17 @@
+- name: Configure users
+  blockinfile:
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
+    path: /etc/ssh/sshd_config
+    backup: yes
+    validate: "/usr/sbin/sshd -T -f %s"
+    content: |
+      Match User {{ item.name }}
+        PermitOpen 127.0.0.1:{{ item.port }}
+  become: true
+
+- name: Add users
+  user:
+    name: "{{ item.name }}"
+    shell: /bin/false
+    group: restricted-ssh
+  become: true

@@ -1,0 +1,27 @@
+- name: Install SSH client config
+  template:
+    force: no
+    src: ssh_client_config.j2
+    dest: /etc/ssh/config
+    mode: 0600
+  become: true
+
+- name: Install autossh
+  apt:
+    name: autossh
+    update_cache: yes
+  become: true
+
+- name: Copy autossh service
+  copy:
+    src: autossh.service
+    dest: /etc/systemd/system/autossh.service
+  become: true
+
+- name: Enable and start autossh service
+  systemd: 
+    state: started
+    name: autossh
+    daemon_reload: yes
+    enabled: yes
+  become: true

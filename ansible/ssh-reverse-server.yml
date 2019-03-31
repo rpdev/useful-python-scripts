@@ -1,0 +1,4 @@
+- hosts: ssh-reverse-server
+
+  roles:
+    - ssh-reverse-server
