@@ -15,3 +15,21 @@
     shell: /bin/false
     group: restricted-ssh
   become: true
+
+- name: Create ssh folder
+  file:
+    path: "/home/{{ item.name }}/.ssh"
+    mode: 0700
+    state: directory
+    group: restricted-ssh
+    owner: "{{ item.name }}"
+  become: true
+
+- name: Create authorized_keys
+  file:
+    path: "/home/{{ item.name }}/.ssh/authorized_keys"
+    mode: 0600
+    state: touch
+    group: restricted-ssh
+    owner: "{{ item.name }}"
+  become: true

@@ -1,8 +1,9 @@
 [Unit]
 Description=Auto Reverse SSH
-Requires=systemd-networkd-wait-online.service
-After=systemd-networkd-wait-online.service
+Wants=network-online.target
+After=network-online.target
 [Service]
+User={{ ansible_user }}
 ExecStart=/usr/bin/autossh -f -M 0 reverse-ssh
 [Install]
 WantedBy=multi-user.target

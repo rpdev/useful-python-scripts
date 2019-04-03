@@ -1,10 +1,14 @@
 - name: Install SSH client config
-  template:
-    force: no
-    src: ssh_client_config.j2
-    dest: /etc/ssh/config
-    mode: 0600
-  become: true
+  blockinfile:
+    create: yes
+    path: "/home/{{ ansible_user }}/.ssh/config"
+    content: |
+      Host reverse-ssh
+        Hostname {{ public_ip }}
+        User {{ remote_user }}
+        Port {{ remote_port }}
+        IdentityFile ~/.ssh/client-reverse-ssh
+        RemoteForward {{ port }} localhost:{{ port }}
 
 - name: Install autossh
   apt:
@@ -13,8 +17,8 @@
   become: true
 
 - name: Copy autossh service
-  copy:
-    src: autossh.service
+  template:
+    src: autossh-service.j2
     dest: /etc/systemd/system/autossh.service
   become: true
 

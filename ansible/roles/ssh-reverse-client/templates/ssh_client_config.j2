@@ -1,6 +1,0 @@
-Host reverse-ssh
-  Hostname {{ public_ip }}
-  User {{ user }}
-  Port {{ port }}
-  IdentityFile /etc/ssh/client-reverse-ssh
-  RemoteForward {{ remote_port }} localhost:{{ port }}
