@@ -3,6 +3,7 @@
 import argparse
 import os
 
+
 def main(folder, file_types = ['.avi', '.mkv', '.mp4']):
     videos = {}
 
@@ -30,6 +31,7 @@ def main(folder, file_types = ['.avi', '.mkv', '.mp4']):
 
 def _get_delete_files(files, spare='.mkv'):
     return [f for f in files if not f.lower().endswith(spare)]
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Detects duplicated movie files')

@@ -11,6 +11,7 @@ def main(source, target):
             ff = os.path.join(root, f)
             os.symlink(ff, os.path.join(target, new_name(f, target)))
 
+
 def new_name(filename, target):
     num = 1
     name = filename

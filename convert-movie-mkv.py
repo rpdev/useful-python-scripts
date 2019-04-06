@@ -6,6 +6,7 @@ import shlex
 from subprocess import Popen
 from sys import stderr, argv
 
+
 def main(folder):
     def _execute_cmd(cmd):
         p = Popen(shlex.split(cmd))
@@ -31,6 +32,7 @@ def main(folder):
                 if not _execute_cmd('touch -r "%s" "%s"' % (file_path, mkv_file_path)):
                     return 1
                 os.remove(file_path)
+
 
 if __name__ == '__main__':
     if len(argv) == 2:
