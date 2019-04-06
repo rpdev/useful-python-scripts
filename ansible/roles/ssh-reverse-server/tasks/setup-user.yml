@@ -6,6 +6,12 @@
     validate: "/usr/sbin/sshd -T -f %s"
     content: |
       Match User {{ item.name }}
+        #AllowTcpForwarding yes
+        #X11Forwarding no
+        #PermitTunnel no
+        #GatewayPorts no
+        AllowAgentForwarding no
+        ForceCommand echo 'This account can only be used for reversed ssh'
         PermitOpen 127.0.0.1:{{ item.port }}
   become: true
 

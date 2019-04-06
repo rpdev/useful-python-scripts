@@ -5,18 +5,3 @@
 
 - include_tasks: setup-user.yml
   with_items: "{{ users }}"
-
-- name: Configure sshd group
-  blockinfile:
-    path: /etc/ssh/sshd_config
-    backup: yes
-    validate: "/usr/sbin/sshd -T -f %s"
-    content: |
-      Match Group restricted-ssh
-        #AllowTcpForwarding yes
-        #X11Forwarding no
-        #PermitTunnel no
-        #GatewayPorts no
-        AllowAgentForwarding no
-        ForceCommand echo 'This account can only be used for reversed ssh'
-  become: true
