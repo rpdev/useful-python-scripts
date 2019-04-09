@@ -3,7 +3,8 @@ Description=Auto Reverse SSH
 Wants=network-online.target
 After=network-online.target
 [Service]
+Environment="AUTOSSH_GATETIME=0"
 User={{ ansible_user }}
-ExecStart=/usr/bin/autossh -f -M 0 -T -N reverse-ssh
+ExecStart=/usr/bin/autossh -M 0 -T -N reverse-ssh
 [Install]
 WantedBy=multi-user.target

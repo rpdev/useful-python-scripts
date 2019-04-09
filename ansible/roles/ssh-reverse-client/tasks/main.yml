@@ -8,6 +8,8 @@
         User {{ remote_user }}
         Port {{ remote_port }}
         IdentityFile ~/.ssh/client-reverse-ssh
+        ServerAliveInterval 30
+        ServerAliveCountMax 3
         RemoteForward {{ port }} localhost:{{ port }}
 
 - name: Install autossh
